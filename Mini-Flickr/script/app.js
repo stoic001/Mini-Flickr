@@ -3,14 +3,13 @@ var app = angular.module("miniFlickr", ['akoenig.deckgrid', 'me-lazyload']);
 app.controller("PhotoCtrl", ["$http", "$scope", "$filter", function ($http, $scope, $filter) {
     $http.get("/api/v1/photos")
         .then(function (response) {
-
             $scope.photos = response.data;
             $scope.filteredPhotos = $scope.photos;
 
             $scope.pinFilter = 'all';
 
             $scope.searchTags = function () {
-                    if ($scope.tagsFilter === undefined) {
+                    if ($scope.tagsFilter === '') {
                         if ($scope.pinFilter === 'all') {
                             $scope.filteredPhotos = $scope.photos;
                         } else if ($scope.pinFilter === 'pinned'){
@@ -27,28 +26,23 @@ app.controller("PhotoCtrl", ["$http", "$scope", "$filter", function ($http, $sco
 
             $scope.pin = function (index) {
                 var currentPinStatus = $scope.photos[index].pinned;
-                console.log('currentPinStatus: '+currentPinStatus);
-                if (currentPinStatus === undefined) {
+                if (currentPinStatus == null) {
                     $scope.photos[index].pinned = true;
-                    console.log('$scope.photos[index].pinned: '+$scope.photos[index].pinned);
                 } else {
                     $scope.photos[index].pinned = !currentPinStatus;
-                    console.log('$scope.photos[index].pinned: '+$scope.photos[index].pinned);
-                    console.log('tagsFilter: ' + $scope.tagsFilter);
-
                 }
             };
 
             $scope.togglePinned = function (pinFilter) {
                 $scope.pinFilter = pinFilter; //to toggle button style class
                 if (pinFilter === 'all') {
-                    if ($scope.tagsFilter === undefined) {
+                    if ($scope.tagsFilter === '') {
                         $scope.filteredPhotos = $scope.photos;
                     } else {
                         $scope.filteredPhotos = $filter('filter')($scope.photos, {tags: $scope.tagsFilter});
                     }
                 } else if (pinFilter === 'pinned') {
-                    if ($scope.tagsFilter === undefined) {
+                    if ($scope.tagsFilter === '') {
                         $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true});
                     } else {
                         $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true, tags: $scope.tagsFilter});

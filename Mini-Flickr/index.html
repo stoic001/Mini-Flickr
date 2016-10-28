@@ -19,7 +19,7 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12 col-md-8">
-                    <h1>Flickr Mountain Gallery</h1>
+                    <h1>Flickr Water Gallery</h1>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="btn-group pin-button-group">
@@ -48,15 +48,15 @@
             <div deckgrid class="deckgrid" source="filteredPhotos">
                 <div class="a-card" ng-mouseover="hoverPin = true" ng-mouseleave="hoverPin = false">
                     <a ng-href="{{card.link}}" target="_blank">
-                        <img lazy-src="{{card.src}}" animate-visible="true" animate-speed="2s" >
+                        <img lazy-src="{{card.src}}" animate-visible="true" animate-speed="10s" >
                     </a>
-                    <h4 class = "text-center">{{card.title}}</h4>
+                    <h3>{{card.title}}</h3>
                     <div class="a-card-tags">
                         Tags: {{card.tags}}
                     </div>
                     <div class="a-card-pin">
                         <img src="/image/pushpin-64.png" class="a-card-pin-icon" ng-show="hoverPin || card.pinned"
-                             ng-click="mother.pin(card.$index)"/>{{card.pinned}}
+                             ng-click="mother.pin(card.originalIndex)">
                     </div>
                 </div>
             </div>
